@@ -54,21 +54,30 @@ public class LotteryService {
 
 	private void dropItem(ConfigLottery configLottery) {
 		Random rand = new Random();
-		for (int i = 0; i < configLottery.getTimesType(); i++) {
-			List<ConfigLotteryItem> items = configLottery.getItems();
-			int totalWeight = 0;
-			for (ConfigLotteryItem item : items) {
-				totalWeight += item.getWeight();
+		if (configLottery.getTimesType() == 1) {
+			dropOnce(rand, configLottery);
+		} else if (configLottery.getTimesType() > 1) {
+			for (int i = 0; i < configLottery.getTimesType() - 1; i++) {
+				dropOnce(rand, configLottery);
 			}
+			dropOnce(rand, getConfigLottery(configLottery.getLotteryType(), 0));
+		}
+	}
 
-			int randNum = rand.nextInt(totalWeight);
-			for (ConfigLotteryItem item : items) {
-				if (randNum < item.getWeight()) {
-					System.out.println("Drop item " + item.getModelID() + ", " + item.getNum());
-					break;
-				}
-				randNum -= item.getWeight();
+	private void dropOnce(Random rand, ConfigLottery configLottery) {
+		List<ConfigLotteryItem> items = configLottery.getItems();
+		int totalWeight = 0;
+		for (ConfigLotteryItem item : items) {
+			totalWeight += item.getWeight();
+		}
+
+		int randNum = rand.nextInt(totalWeight);
+		for (ConfigLotteryItem item : items) {
+			if (randNum < item.getWeight()) {
+				System.out.println("Drop item " + item.getModelID() + ", " + item.getNum());
+				break;
 			}
+			randNum -= item.getWeight();
 		}
 	}
 
