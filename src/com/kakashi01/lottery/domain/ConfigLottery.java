@@ -10,9 +10,10 @@ public class ConfigLottery {
 
 	private int						lotteryType;
 	private int						timesType;
-	private int						cost;							// 抽奖需要消耗的资源
+	private int						cost;		// 抽奖需要消耗的资源
+	private int						costType;	// 抽奖需要消耗的资源类型
 
-	private List<ConfigLotteryItem>	items;							// 掉落的物品
+	private List<ConfigLotteryItem>	items;		// 掉落的物品
 
 	public int getLotteryType() {
 		return lotteryType;
@@ -44,5 +45,13 @@ public class ConfigLottery {
 
 	public void setItems(List<ConfigLotteryItem> items) {
 		this.items = items;
+	}
+
+	public int getCostType() {
+		return costType;
+	}
+
+	public void setCostType(int costType) {
+		this.costType = costType;
 	}
 }
