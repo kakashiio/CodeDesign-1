@@ -2,6 +2,8 @@ package com.kakashi01.lottery.domain;
 
 import java.util.List;
 
+import com.kakashi01.common.KeyAndValue;
+
 public class ConfigLottery {
 
 	public static final int			SLIVER	= 1;
@@ -10,10 +12,9 @@ public class ConfigLottery {
 
 	private int						lotteryType;
 	private int						timesType;
-	private int						cost;		// 抽奖需要消耗的资源
-	private int						costType;	// 抽奖需要消耗的资源类型
+	private KeyAndValue[]			costs;								// 抽奖需要消耗的资源
 
-	private List<ConfigLotteryItem>	items;		// 掉落的物品
+	private List<ConfigLotteryItem>	items;								// 掉落的物品
 
 	public int getLotteryType() {
 		return lotteryType;
@@ -31,14 +32,6 @@ public class ConfigLottery {
 		this.timesType = timesType;
 	}
 
-	public int getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
-
 	public List<ConfigLotteryItem> getItems() {
 		return items;
 	}
@@ -47,11 +40,11 @@ public class ConfigLottery {
 		this.items = items;
 	}
 
-	public int getCostType() {
-		return costType;
+	public KeyAndValue[] getCosts() {
+		return costs;
 	}
 
-	public void setCostType(int costType) {
-		this.costType = costType;
+	public void setCosts(KeyAndValue[] costs) {
+		this.costs = costs;
 	}
 }

@@ -3,6 +3,8 @@ package com.kakashi01.player.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kakashi01.common.KeyAndValue;
+
 public class Player {
 
 	public static final int						RESOURCE_SLIVER		= 1;
@@ -44,6 +46,25 @@ public class Player {
 
 	public void setResource(int resource, int value) {
 		resources.put(resource, value);
+	}
+
+	public boolean costResources(KeyAndValue[] costs) {
+		if (!isEnough(costs)) {
+			return false;
+		}
+		for (KeyAndValue keyAndValue : costs) {
+			alterResource(keyAndValue.getKey(), keyAndValue.getValue());
+		}
+		return true;
+	}
+
+	public boolean isEnough(KeyAndValue[] keyAndValues) {
+		for (KeyAndValue keyAndValue : keyAndValues) {
+			if (getResource(keyAndValue.getKey()) < keyAndValue.getValue()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean alterResource(int resource, int alter) {

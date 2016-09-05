@@ -82,6 +82,6 @@ public class LotteryService {
 	}
 
 	private boolean tryCostResource(Player player, ConfigLottery configLottery) {
-		return player.alterResource(configLottery.getCostType(), -configLottery.getCost());
+		return player.costResources(configLottery.getCosts());
 	}
 }
