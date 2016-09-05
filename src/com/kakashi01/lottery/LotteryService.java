@@ -1,17 +1,25 @@
 package com.kakashi01.lottery;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import com.kakashi01.lottery.domain.ConfigLottery;
-import com.kakashi01.lottery.domain.ConfigLotteryItem;
+import com.kakashi01.lottery.domain.ConfigLotteryItemLib;
 import com.kakashi01.player.domain.Player;
 
 public class LotteryService {
 
-	private final Map<Integer, Map<Integer, ConfigLottery>> lotteryMap = new HashMap<>();
+	private final Map<Integer, Map<Integer, ConfigLottery>>	lotteryMap			= new HashMap<>();
+	private final Map<Integer, ConfigLotteryItemLib>		lotteryItemLibMap	= new HashMap<>();
+
+	public void addConfigLotteryItemLib(ConfigLotteryItemLib configLotteryItemLib) {
+		lotteryItemLibMap.put(configLotteryItemLib.getModelID(), configLotteryItemLib);
+	}
+
+	private ConfigLotteryItemLib getConfigLotteryItemLib(int modelID) {
+		return lotteryItemLibMap.get(modelID);
+	}
 
 	public void addConfigLottery(ConfigLottery configLottery) {
 		Map<Integer, ConfigLottery> map = lotteryMap.get(configLottery.getLotteryType());
@@ -54,30 +62,10 @@ public class LotteryService {
 
 	private void dropItem(ConfigLottery configLottery) {
 		Random rand = new Random();
-		if (configLottery.getTimesType() == 1) {
-			dropOnce(rand, configLottery);
-		} else if (configLottery.getTimesType() > 1) {
-			for (int i = 0; i < configLottery.getTimesType() - 1; i++) {
-				dropOnce(rand, configLottery);
-			}
-			dropOnce(rand, getConfigLottery(configLottery.getLotteryType(), 0));
-		}
-	}
-
-	private void dropOnce(Random rand, ConfigLottery configLottery) {
-		List<ConfigLotteryItem> items = configLottery.getItems();
-		int totalWeight = 0;
-		for (ConfigLotteryItem item : items) {
-			totalWeight += item.getWeight();
-		}
-
-		int randNum = rand.nextInt(totalWeight);
-		for (ConfigLotteryItem item : items) {
-			if (randNum < item.getWeight()) {
-				System.out.println("Drop item " + item.getModelID() + ", " + item.getNum());
-				break;
-			}
-			randNum -= item.getWeight();
+		int[] configLotteryItemLibModelIDs = configLottery.getConfigLotteryItemLibModelIDs();
+		for (int configLotteryItemLibModelID : configLotteryItemLibModelIDs) {
+			ConfigLotteryItemLib configLotteryItemLib = getConfigLotteryItemLib(configLotteryItemLibModelID);
+			configLotteryItemLib.getRandomItem(rand);
 		}
 	}
 
